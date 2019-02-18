@@ -7,6 +7,8 @@
 Adafruit_7segment matrix = Adafruit_7segment();
 const int solenoid = 12;
 
+// 1 = liters; 2 = gallons
+int units = 1; 
 // count how many pulses!
 volatile uint16_t pulses = 0;
 // track the state of the pulse pin
@@ -125,11 +127,18 @@ void shower(int duration){
     // Liters = Q * time elapsed (seconds) / 60 (seconds/minute)
     // Liters = (Frequency (Pulses/second) / 7.5) * time elapsed (seconds) / 60
     // Liters = Pulses / (7.5 * 60)
+    // Gallons = Liters / 3.785
     float liters = pulses;
     liters /= 7.5;
     liters /= 60.0;
-  
-    Serial.print(liters); Serial.println(" Liters");
+      if (units == 1){
+    if (units == 1){
+      Serial.print(liters); Serial.println(" Liters");
+    }
+    else if (units == 2){
+      float gallons = liters /= 3.785;
+      Serial.print(gallons); Serial.println(" Gallons");
+    }
   //  int disp = (int) liters;
   //  matrix.print(disp, DEC); matrix.writeDisplay();
   
